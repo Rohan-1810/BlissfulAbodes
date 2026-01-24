@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Staff Dashboard</h2>
+    
+    <div class="mb-4">
+        <h3>Occupancy Overview</h3>
+        <div class="stats-grid" id="occupancy-stats">
+            <div class="stat-card">
+                <div class="stat-number" id="stat-total">-</div>
+                <div>Total Rooms</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="stat-booked">-</div>
+                <div>Booked</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="stat-available">-</div>
+                <div>Available</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="stat-maintenance">-</div>
+                <div>Maintenance</div>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="mb-4" style="margin-top: 2rem;">
+        <h3>Room Management</h3>
+        <button id="refresh-btn" class="btn btn-primary" style="margin-bottom: 1rem;">Refresh List</button>
+        <div id="rooms-list" class="card-grid">
+            <p>Loading rooms...</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/staff.js') }}"></script>
+{% endblock %}

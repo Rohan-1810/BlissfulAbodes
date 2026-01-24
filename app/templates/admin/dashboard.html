@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Admin Dashboard</h2>
+    
+    <!-- Analytics -->
+    <div class="mb-4">
+        <h3>System Analytics</h3>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="anl-revenue">$0</div>
+                <div>Total Revenue</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="anl-occupancy">0%</div>
+                <div>Occupancy Rate</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="anl-bookings">0</div>
+                <div>Total Bookings</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="anl-rooms">0</div>
+                <div>Total Rooms</div>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- Management -->
+    <div class="mb-4" style="margin-top: 2rem;">
+        <h3>Manage Rooms</h3>
+        <button class="btn btn-primary" onclick="document.getElementById('add-room-modal').style.display='flex'">Add New Room</button>
+        
+        <div id="admin-rooms-list" class="card-grid" style="margin-top: 1rem;">
+            <!-- List for deleting -->
+        </div>
+    </div>
+</div>
+
+<!-- Add Room Modal -->
+<div id="add-room-modal" class="hidden" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); display:flex; justify-content:center; align-items:center; z-index:2000;">
+    <div class="form-container" style="width: 400px; margin:0;">
+        <h3>Add New Room</h3>
+        <form id="addRoomForm">
+            <div class="form-group">
+                <label>Type</label>
+                <select id="new-type" class="form-control" required>
+                    <option value="Single">Single</option>
+                    <option value="Double">Double</option>
+                    <option value="Suite">Suite</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Price</label>
+                <input type="number" id="new-price" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>Image URL (Optional)</label>
+                <input type="url" id="new-image" class="form-control" placeholder="https://example.com/image.jpg">
+            </div>
+            <div class="form-group">
+                <label>Amenities (comma separated)</label>
+                <input type="text" id="new-amenities" class="form-control" placeholder="Wifi, TV, Pool View">
+            </div>
+            <div style="text-align:right;">
+                 <button type="submit" class="btn btn-primary">Create</button>
+                 <button type="button" class="btn btn-accent" onclick="document.getElementById('add-room-modal').style.display='none'">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+{% endblock %}

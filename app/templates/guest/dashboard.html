@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Welcome Guest</h2>
+    
+    <!-- My Bookings Section -->
+    <div class="mb-4">
+        <h3>My Bookings</h3>
+        <div id="my-bookings" class="card-grid" style="grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));">
+            <p>Loading bookings...</p>
+        </div>
+    </div>
+
+    <hr>
+    
+    <!-- Available Rooms Section -->
+    <div class="mb-4" style="margin-top: 2rem;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+             <h3>Available Rooms</h3>
+             <div class="filters">
+                 <select id="type-filter" class="form-control" style="width: 150px; display:inline-block;">
+                     <option value="">All Types</option>
+                     <option value="Single">Single</option>
+                     <option value="Double">Double</option>
+                     <option value="Suite">Suite</option>
+                 </select>
+                 <select id="price-filter" class="form-control" style="width: 150px; display:inline-block;">
+                     <option value="">Max Price</option>
+                     <option value="100">< $100</option>
+                     <option value="200">< $200</option>
+                     <option value="500">< $500</option>
+                 </select>
+                 <button id="filter-btn" class="btn btn-primary">Filter</button>
+             </div>
+        </div>
+        <div id="rooms-list" class="card-grid" style="margin-top: 1rem;">
+            <p>Loading rooms...</p>
+        </div>
+    </div>
+</div>
+
+<!-- Booking Modal -->
+<div id="booking-modal" class="hidden" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); display:flex; justify-content:center; align-items:center; z-index:2000;">
+    <div class="form-container" style="width: 400px; margin:0;">
+        <h3>Book Room</h3>
+        <p>Room ID: <span id="modal-room-id"></span></p>
+        <p>Price: $<span id="modal-room-price"></span></p>
+        <div class="form-group">
+            <label>Dates (e.g., 2023-10-20 to 2023-10-25)</label>
+            <input type="text" id="booking-dates" class="form-control" placeholder="YYYY-MM-DD to YYYY-MM-DD">
+        </div>
+        <div style="text-align:right;">
+             <button class="btn btn-primary" id="confirm-booking-btn">Confirm</button>
+             <button class="btn btn-accent" onclick="document.getElementById('booking-modal').style.display='none'">Cancel</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/guest.js') }}"></script>
+{% endblock %}

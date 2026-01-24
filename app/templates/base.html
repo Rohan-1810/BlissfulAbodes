@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Blissful Abodes{% endblock %}</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="/" class="navbar-brand">Blissful Abodes</a>
+        <ul class="nav-links" id="navLinks">
+            <!-- Dynamic links based on role will be handled by JS or simple checking if MVP uses SSR for this part -->
+            <!-- For this Single Page App-like feel with Vanilla JS API calls, we might default these and update via JS -->
+            <li><a href="/">Home</a></li>
+            <li><a href="/login" id="loginLink">Login</a></li>
+            <li><a href="/register" id="registerLink">Register</a></li>
+            <li><a href="#" id="logoutLink" class="hidden">Logout</a></li>
+        </ul>
+    </nav>
+
+    <div id="alert-container" style="position: fixed; top: 20px; right: 20px; z-index: 1001;"></div>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <script>
+        // Simple auth state checker for nav
+        document.addEventListener("DOMContentLoaded", () => {
+            const token = localStorage.getItem('token');
+            const role = localStorage.getItem('role');
+            
+            if (token) {
+                document.getElementById('loginLink').classList.add('hidden');
+                document.getElementById('registerLink').classList.add('hidden');
+                const logoutLink = document.getElementById('logoutLink');
+                logoutLink.classList.remove('hidden');
+                
+                logoutLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('role');
+                    localStorage.removeItem('user');
+                    window.location.href = '/login';
+                });
+
+                // Add dashboard link
+                const nav = document.getElementById('navLinks');
+                const dashLi = document.createElement('li');
+                const dashLink = document.createElement('a');
+                
+                if (role === 'admin') dashLink.href = '/admin/dashboard';
+                else if (role === 'staff') dashLink.href = '/staff/dashboard';
+                else dashLink.href = '/guest/dashboard';
+                
+                dashLink.innerText = 'Dashboard';
+                dashLi.appendChild(dashLink);
+                nav.insertBefore(dashLi, nav.lastElementChild); // Insert before logout
+            }
+        });
+
+        function showAlert(message, type = 'success') {
+            const container = document.getElementById('alert-container');
+            const alert = document.createElement('div');
+            alert.style.padding = '1rem';
+            alert.style.marginBottom = '1rem';
+            alert.style.borderRadius = '4px';
+            alert.style.color = 'white';
+            alert.style.minWidth = '250px';
+            alert.style.boxShadow = '0 2px 5px rgba(0,0,0,0.2)';
+            
+            if (type === 'success') alert.style.backgroundColor = '#2ecc71';
+            else if (type === 'error') alert.style.backgroundColor = '#e74c3c';
+            else alert.style.backgroundColor = '#3498db';
+            
+            alert.innerText = message;
+            container.appendChild(alert);
+            
+            setTimeout(() => {
+                alert.remove();
+            }, 3000);
+        }
+    </script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

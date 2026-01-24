@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+
+{% block title %}Welcome to Blissful Abodes{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-api">
+        <h1>Experience Luxury Like Never Before</h1>
+        <p>Your perfect getaway awaits. Discover comfort, elegance, and serenity.</p>
+        <a href="/login" class="btn btn-accent btn-lg">Book Your Stay</a>
+    </div>
+</section>
+
+<!-- About Section -->
+<section class="container" style="margin-top: 4rem; margin-bottom: 4rem;">
+    <div class="row" style="display: flex; align-items: center; gap: 4rem; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 300px;">
+            <h2 class="section-title">Why Choose Blissful Abodes?</h2>
+            <p style="margin-bottom: 1rem; font-size: 1.1rem;">
+                Nestled in the heart of nature, Blissful Abodes offers a sanctuary for travelers seeking peace and luxury. 
+                Whether you are here for business or leisure, our top-tier amenities and dedicated staff ensure an unforgettable experience.
+            </p>
+            <p>
+                From our world-class spa to our gourmet dining, every detail is curated for your delight. 
+                Join us and redefine what it means to relax.
+            </p>
+        </div>
+        <div style="flex: 1; min-width: 300px;">
+            <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" 
+                 alt="Hotel Interior" 
+                 style="width: 100%; border-radius: 8px; box-shadow: var(--shadow);">
+        </div>
+    </div>
+</section>
+
+<!-- Amenities Section -->
+<section style="background-color: #f1f2f6; padding: 4rem 0;">
+    <div class="container">
+        <h2 class="text-center section-title">World-Class Amenities</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🏊</div>
+                <h3>Infinity Pool</h3>
+                <p>Relax in our temperature-controlled infinity pool with breathtaking views.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🍽️</div>
+                <h3>Gourmet Dining</h3>
+                <p>Experience culinary masterpieces prepared by our award-winning chefs.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💆</div>
+                <h3>Luxury Spa</h3>
+                <p>Rejuvenate your mind and body with our extensive range of spa treatments.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📶</div>
+                <h3>High-Speed Wifi</h3>
+                <p>Stay connected with complimentary high-speed internet throughout the property.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Rooms Section -->
+<section class="container" style="margin-top: 4rem; margin-bottom: 4rem;">
+    <h2 class="text-center section-title">Our Featured Rooms</h2>
+    <p class="text-center" style="max-width: 600px; margin: 0 auto 2rem auto;">
+        Choose from our selection of premium rooms, each designed to provide the utmost comfort.
+    </p>
+    <div id="featured-rooms" class="card-grid">
+        <!-- Content loaded via JS -->
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section style="background-color: var(--primary-color); color: white; padding: 4rem 0;">
+    <div class="container text-center">
+        <h2 style="color: white; margin-bottom: 3rem;">What Our Guests Say</h2>
+        <div class="testimonial-grid">
+            <div class="testimonial-card">
+                <p>"Absolutely stunning! The view from the suite was breathtaking and the service was impeccable."</p>
+                <h4>- Sarah Johnson</h4>
+            </div>
+            <div class="testimonial-card">
+                <p>"A perfect weekend getaway. The spa treatments were divine and the food was delicious."</p>
+                <h4>- Michael Chen</h4>
+            </div>
+            <div class="testimonial-card">
+                <p>"Everything was top notch. I've never slept better. Highly recommended for luxury travelers."</p>
+                <h4>- Emily Davis</h4>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section style="padding: 4rem 0; text-align: center;">
+    <div class="container">
+        <h2>Ready for your dream vacation?</h2>
+        <p style="margin-bottom: 2rem;">Book your stay at Blissful Abodes today.</p>
+        <a href="/login" class="btn btn-accent">Reserve Now</a>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer style="background-color: #1a252f; color: #ecf0f1; padding: 3rem 0; margin-top: auto;">
+    <div class="container">
+        <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 2rem;">
+            <div style="flex: 1;">
+                <h3 style="color: white;">Blissful Abodes</h3>
+                <p>Your luxury escape.</p>
+            </div>
+            <div style="flex: 1;">
+                <h4>Quick Links</h4>
+                <ul style="list-style: none; padding: 0;">
+                    <li><a href="/" style="color: #bdc3c7; text-decoration: none;">Home</a></li>
+                    <li><a href="/login" style="color: #bdc3c7; text-decoration: none;">Login</a></li>
+                    <li><a href="/register" style="color: #bdc3c7; text-decoration: none;">Register</a></li>
+                </ul>
+            </div>
+            <div style="flex: 1;">
+                <h4>Contact Us</h4>
+                <p>123 Luxury Lane, Paradise City</p>
+                <p>info@blissfulabodes.com</p>
+                <p>+1 (555) 123-4567</p>
+            </div>
+        </div>
+        <div class="text-center" style="margin-top: 2rem; border-top: 1px solid #34495e; padding-top: 1rem;">
+            <small>&copy; 2023 Blissful Abodes. All Rights Reserved.</small>
+        </div>
+    </div>
+</footer>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Fetch some rooms for the homepage
+    async function loadFeatured() {
+        try {
+            const res = await fetch('/api/guests/rooms?status=Available&limit=3');
+            let rooms = [];
+            
+            // Check content type to avoid crashing on HTML error responses
+            const contentType = res.headers.get("content-type");
+            if (contentType && contentType.indexOf("application/json") !== -1) {
+                rooms = await res.json();
+            } else {
+                 console.log("Backend returned non-JSON, likely empty DB or error.");
+                 // Fallback mock data for visual demo if DB is empty or error
+                 rooms = [
+                    {type: 'Deluxe Suite', price: 15000, amenities: ['Wifi', 'Ocean View', 'Balcony']},
+                    {type: 'Executive Room', price: 8000, amenities: ['Wifi', 'Work Desk']},
+                    {type: 'Standard King', price: 5000, amenities: ['Wifi', 'TV']}
+                 ];
+            }
+            
+            const container = document.getElementById('featured-rooms');
+            
+            // Limit to 3 for display
+            rooms.slice(0, 3).forEach(room => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div style="height: 200px; background-color: #ddd;">
+                        <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=800&q=80" 
+                             style="width:100%; height:100%; object-fit:cover;" 
+                             alt="${room.type}">
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">${room.type}</h3>
+                        <div class="card-price">₹${room.price} / night</div>
+                        <p>${room.amenities.join(', ')}</p>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        } catch (e) {
+            console.error(e);
+        }
+    }
+    loadFeatured();
+</script>
+{% endblock %}
