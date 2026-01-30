@@ -1,0 +1,310 @@
+/* =========================================
+   SCOPED DASHBOARD STYLES
+   ========================================= */
+
+/* --- Admin Dashboard Scope --- */
+.admin-dashboard {
+    /* Variables Scope */
+    --admin-primary: #2c3e50;
+    --admin-accent: #d4af37;
+    --admin-bg: #fdfdfd;
+}
+
+.admin-dashboard h2 {
+    font-weight: 700;
+    border-bottom: 2px solid var(--admin-accent);
+    padding-bottom: 0.5rem;
+    margin-bottom: 2rem;
+    display: inline-block;
+}
+
+/* Metric Cards */
+.admin-dashboard .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+}
+
+.admin-dashboard .stat-card {
+    background: #fff;
+    border-left: 4px solid var(--admin-accent);
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    border-radius: 8px;
+    transition: transform 0.2s;
+}
+
+.admin-dashboard .stat-card:hover {
+    transform: translateY(-2px);
+}
+
+.admin-dashboard .stat-number {
+    font-size: 2rem;
+    color: var(--admin-primary);
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.admin-dashboard .stat-label {
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    color: #7f8c8d;
+    letter-spacing: 0.5px;
+}
+
+/* Data Table */
+.admin-dashboard .data-table-container {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    overflow: hidden;
+    margin-top: 2rem;
+}
+
+.admin-dashboard .toolbar {
+    padding: 1rem;
+    background: #f8f9fa;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.admin-dashboard .search-input {
+    padding: 0.5rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    width: 250px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.admin-dashboard .search-input:focus {
+    border-color: var(--admin-accent);
+}
+
+.admin-dashboard table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-dashboard th, 
+.admin-dashboard td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.admin-dashboard th {
+    background: #2c3e50;
+    color: #fff;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    cursor: pointer;
+    user-select: none;
+}
+
+.admin-dashboard th:hover {
+    background: #34495e;
+}
+
+.admin-dashboard tr:hover {
+    background: #f1f2f6;
+}
+
+.admin-dashboard .actions-cell {
+    text-align: right;
+}
+
+.admin-dashboard .btn-sm {
+    padding: 0.25rem 0.75rem;
+    font-size: 0.85rem;
+}
+
+/* --- Staff Dashboard Scope --- */
+.staff-dashboard {
+    --staff-primary: #27ae60;
+    --staff-accent: #2c3e50;
+}
+
+.staff-dashboard h2 {
+    color: var(--staff-accent);
+    margin-bottom: 2rem;
+}
+
+.staff-dashboard .overview-board {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    margin-bottom: 2rem;
+}
+
+.staff-dashboard .board-item {
+    text-align: center;
+    border-right: 1px solid #eee;
+}
+
+.staff-dashboard .board-item:last-child {
+    border-right: none;
+}
+
+.staff-dashboard .board-num {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.staff-dashboard .board-label {
+    font-size: 0.9rem;
+    color: #7f8c8d;
+}
+
+.staff-dashboard .room-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 8px;
+}
+
+.staff-dashboard .room-table tr {
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.staff-dashboard .room-table td {
+    padding: 1rem;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+
+.staff-dashboard .room-table td:first-child {
+    border-left: 1px solid #eee;
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+    font-weight: bold;
+}
+
+.staff-dashboard .room-table td:last-child {
+    border-right: 1px solid #eee;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+
+/* --- Guest Dashboard Scope --- */
+.guest-dashboard {
+    --guest-gold: #d4af37;
+}
+
+.guest-dashboard .welcome-header {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    margin-bottom: 3rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.guest-dashboard .booking-track {
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+}
+
+.guest-dashboard .booking-ticket {
+    min-width: 280px;
+    background: #fff;
+    border-left: 5px solid var(--guest-gold);
+    padding: 1.5rem;
+    border-radius: 0 8px 8px 0;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    position: relative;
+}
+
+.guest-dashboard .booking-ticket::before {
+    content: 'TICKET';
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    font-size: 0.6rem;
+    color: #ecf0f1;
+    font-weight: 800;
+}
+
+.guest-dashboard .room-card-modern {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    transition: transform 0.3s, box-shadow 0.3s;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.guest-dashboard .room-card-modern:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+}
+
+.guest-dashboard .room-img-wrapper {
+    height: 220px;
+    overflow: hidden;
+    position: relative;
+}
+
+.guest-dashboard .room-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s;
+}
+
+.guest-dashboard .room-card-modern:hover img {
+    transform: scale(1.05);
+}
+
+.guest-dashboard .rc-body {
+    padding: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.guest-dashboard .rc-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.guest-dashboard .rc-amenities {
+    font-size: 0.9rem;
+    color: #7f8c8d;
+    margin-bottom: 1.5rem;
+    flex-grow: 1;
+}
+
+.guest-dashboard .btn-book-glass {
+    background: var(--primary-color);
+    color: #fff;
+    width: 100%;
+    padding: 0.8rem;
+    border-radius: 6px;
+    text-align: center;
+    transition: background 0.3s;
+}
+
+.guest-dashboard .btn-book-glass:hover {
+    background: var(--guest-gold);
+}

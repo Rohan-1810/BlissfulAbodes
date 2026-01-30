@@ -24,41 +24,40 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Load Rooms for Status Update
+    // Load Rooms for Status Update
     async function loadRooms() {
-        const container = document.getElementById('rooms-list');
+        const tbody = document.getElementById('rooms-list');
+        tbody.innerHTML = '<tr><td colspan="3" class="text-center">Loading...</td></tr>';
+
         try {
-            // Staff needs to see all rooms, so we filter nothing or specifically ask for all
-            // Ideally backend 'get_rooms' returns all if no filter.
-            const res = await fetch('/api/guests/rooms', { // Reusing guest API without filters returns all
+            // Staff needs to see all rooms, so we filter nothing
+            const res = await fetch('/api/guests/rooms', { 
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             const rooms = await res.json();
             
-            container.innerHTML = '';
+            tbody.innerHTML = '';
             rooms.forEach(r => {
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.innerHTML = `
-                    <div class="card-body">
-                        <h4 class="card-title">${r.type} <small>(ID: ${r.roomId.substring(0,4)})</small></h4>
-                        <div class="card-price">Current Status: 
-                            <span class="badge badge-${r.status.toLowerCase()}">${r.status}</span>
-                        </div>
-                        <div style="margin-top: 1rem;">
-                            <label>Update Status:</label>
-                            <select onchange="updateStatus('${r.roomId}', this.value)" class="form-control" style="margin-bottom: 0.5rem;">
-                                <option value="" disabled selected>Select...</option>
-                                <option value="Available">Available</option>
-                                <option value="Booked">Booked</option>
-                                <option value="Maintenance">Maintenance</option>
-                            </select>
-                        </div>
-                    </div>
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>
+                        <strong>${r.type}</strong><br>
+                        <small style="color:#bdc3c7">ID: ${r.roomId.substring(0,8)}</small>
+                    </td>
+                    <td><span class="badge badge-${r.status.toLowerCase()}">${r.status}</span></td>
+                    <td>
+                        <select onchange="updateStatus('${r.roomId}', this.value)" class="form-control" style="width:auto; display:inline-block;">
+                            <option value="" disabled selected>Change Status...</option>
+                            <option value="Available">Available</option>
+                            <option value="Booked">Booked</option>
+                            <option value="Maintenance">Maintenance</option>
+                        </select>
+                    </td>
                 `;
-                container.appendChild(card);
+                tbody.appendChild(tr);
             });
         } catch (e) {
-            container.innerHTML = '<p>Error loading rooms.</p>';
+            tbody.innerHTML = '<tr><td colspan="3" class="text-center">Error loading rooms.</td></tr>';
         }
     }
 

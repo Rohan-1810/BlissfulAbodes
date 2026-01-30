@@ -1,42 +1,58 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container">
-    <h2>Admin Dashboard</h2>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboards.css') }}">
+<div class="admin-dashboard container">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+        <h2>Admin Dashboard</h2>
+        <span style="color:#7f8c8d;">Overview & Management</span>
+    </div>
     
     <!-- Analytics -->
     <div class="mb-4">
-        <h3>System Analytics</h3>
         <div class="stats-grid">
             <div class="stat-card">
-                <div class="stat-number" id="anl-revenue">$0</div>
-                <div>Total Revenue</div>
+                <div class="stat-number" id="anl-revenue">₹0</div>
+                <div class="stat-label">Total Revenue</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number" id="anl-occupancy">0%</div>
-                <div>Occupancy Rate</div>
+                <div class="stat-label">Occupancy Rate</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number" id="anl-bookings">0</div>
-                <div>Total Bookings</div>
+                <div class="stat-label">Total Bookings</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number" id="anl-rooms">0</div>
-                <div>Total Rooms</div>
+                <div class="stat-label">Total Rooms</div>
             </div>
         </div>
     </div>
 
-    <hr>
-
     <!-- Management -->
-    <div class="mb-4" style="margin-top: 2rem;">
-        <h3>Manage Rooms</h3>
-        <button class="btn btn-primary" onclick="document.getElementById('add-room-modal').style.display='flex'">Add New Room</button>
-        
-        <div id="admin-rooms-list" class="card-grid" style="margin-top: 1rem;">
-            <!-- List for deleting -->
+    <div class="data-table-container">
+        <div class="toolbar">
+            <h3>Manage Rooms</h3>
+            <div style="display:flex; gap:1rem;">
+                <input type="text" id="room-search" class="search-input" placeholder="Search rooms...">
+                <button class="btn btn-primary" onclick="document.getElementById('add-room-modal').style.display='flex'">+ Add Room</button>
+            </div>
         </div>
+        
+        <table id="admin-rooms-table">
+            <thead>
+                <tr>
+                    <th onclick="sortTable(0)">Type ⬍</th>
+                    <th onclick="sortTable(1)">Price ⬍</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="admin-rooms-list">
+                <!-- Rows injected by JS -->
+            </tbody>
+        </table>
     </div>
 </div>
 

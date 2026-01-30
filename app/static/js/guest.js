@@ -22,21 +22,20 @@ document.addEventListener('DOMContentLoaded', () => {
             
             bookingsContainer.innerHTML = '';
             if (bookings.length === 0) {
-                bookingsContainer.innerHTML = '<p>No bookings found.</p>';
+                bookingsContainer.innerHTML = '<p style="padding: 1rem;">No upcoming bookings. Time to plan a trip!</p>';
                 return;
             }
 
             bookings.forEach(b => {
-                const card = document.createElement('div');
-                card.className = 'stat-card'; // Reuse styled card
-                card.style.textAlign = 'left';
-                card.innerHTML = `
-                    <h4>Booking #${b.bookingId.substring(0,8)}</h4>
-                    <p><strong>Status:</strong> ${b.status}</p>
-                    <p><strong>Dates:</strong> ${b.dates}</p>
-                    <p><strong>Room:</strong> ${b.roomId}</p>
+                const ticket = document.createElement('div');
+                ticket.className = 'booking-ticket';
+                ticket.innerHTML = `
+                    <h4 style="margin-bottom:0.5rem; color:var(--guest-gold)">${b.roomId}</h4>
+                    <p style="font-size:0.9rem; margin-bottom:0.5rem;"><strong>${b.dates}</strong></p>
+                    <span class="badge badge-${b.status.toLowerCase()}">${b.status}</span>
+                    <div style="font-size:0.8rem; color:#95a5a6; margin-top:1rem;">ID: #${b.bookingId.substring(0,8)}</div>
                 `;
-                bookingsContainer.appendChild(card);
+                bookingsContainer.appendChild(ticket);
             });
         } catch (e) {
             bookingsContainer.innerHTML = '<p>Error loading bookings.</p>';
@@ -61,21 +60,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
             rooms.forEach(r => {
                 const card = document.createElement('div');
-                card.className = 'card';
+                card.className = 'room-card-modern';
+                
                 // Use dynamic image url or fallback
                 const img = r.image_url || 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=800&q=80';
                 
-                card.innerHTML = `
-                    <div style="height: 200px; background-color: #ddd;">
-                        <img src="${img}" style="width:100%; height:100%; object-fit:cover;" alt="${r.type}">
-                    </div>
-                    <div class="card-body">
+                // Image Wrapper
+                const imgWrap = document.createElement('div');
+                imgWrap.className = 'room-img-wrapper';
+                imgWrap.innerHTML = `<img src="${img}" alt="${r.type}">`;
+                card.appendChild(imgWrap);
+
+                // Body
+                const body = document.createElement('div');
+                body.className = 'rc-body';
+                body.innerHTML = `
+                    <div class="rc-head">
                         <h3 class="card-title">${r.type}</h3>
                         <div class="card-price">₹${r.price}</div>
-                        <p>Amenities: ${r.amenities.join(', ')}</p>
-                        <button class="btn btn-primary" onclick="openBookingModal('${r.roomId}', '${r.price}')">Book Now</button>
                     </div>
+                    <div class="rc-amenities">${r.amenities.join(' • ')}</div>
                 `;
+
+                // Book Button
+                const btn = document.createElement('button');
+                btn.className = 'btn-book-glass';
+                btn.innerText = 'Reserve Now';
+                btn.onclick = () => openBookingModal(r.roomId, r.price);
+                
+                body.appendChild(btn);
+                card.appendChild(body);
                 roomsContainer.appendChild(card);
             });
         } catch (e) {
@@ -85,9 +99,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Modal Logic
     window.openBookingModal = (roomId, price) => {
+        console.log("Opening modal for:", roomId, price);
         const modal = document.getElementById('booking-modal');
-        document.getElementById('modal-room-id').innerText = roomId;
-        document.getElementById('modal-room-price').innerText = price;
+        document.getElementById('modal-room-id').innerText = roomId || 'Error';
+        document.getElementById('modal-room-price').innerText = price || '0';
         modal.style.display = 'flex';
         modal.dataset.roomId = roomId;
     };
@@ -95,12 +110,21 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('confirm-booking-btn').addEventListener('click', async () => {
         const modal = document.getElementById('booking-modal');
         const roomId = modal.dataset.roomId;
-        const dates = document.getElementById('booking-dates').value;
+        const checkIn = document.getElementById('checkin-date').value;
+        const checkOut = document.getElementById('checkout-date').value;
 
-        if (!dates) {
-            alert('Please enter dates');
+        if (!checkIn || !checkOut) {
+            alert('Please select both Check-in and Check-out dates');
             return;
         }
+
+        if (checkIn >= checkOut) {
+            alert('Check-out date must be after Check-in date');
+            return;
+        }
+
+        // Format for backend (keeping simple string for this MVP)
+        const dates = `${checkIn} to ${checkOut}`;
 
         try {
             const res = await fetch('/api/guests/bookings', {

@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             const data = await res.json();
             
-            document.getElementById('anl-revenue').innerText = '$' + data.total_revenue;
+            document.getElementById('anl-revenue').innerText = '₹' + data.total_revenue;
             document.getElementById('anl-occupancy').innerText = data.occupancy_rate + '%';
             document.getElementById('anl-bookings').innerText = data.total_bookings;
             document.getElementById('anl-rooms').innerText = data.total_rooms;
@@ -22,31 +22,77 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    let currentRooms = [];
+
     async function loadRooms() {
-        const container = document.getElementById('admin-rooms-list');
+        const tbody = document.getElementById('admin-rooms-list');
+        tbody.innerHTML = '<tr><td colspan="4" class="text-center">Loading...</td></tr>';
+        
         try {
             const res = await fetch('/api/guests/rooms', { 
                 headers: { 'Authorization': `Bearer ${token}` }
             });
-            const rooms = await res.json();
-            
-            container.innerHTML = '';
-            rooms.forEach(r => {
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.innerHTML = `
-                    <div class="card-body">
-                        <h4>${r.type} <small>($${r.price})</small></h4>
-                        <p>Status: ${r.status}</p>
-                        <button class="btn btn-accent" onclick="deleteRoom('${r.roomId}')">Delete</button>
-                    </div>
-                `;
-                container.appendChild(card);
-            });
+            currentRooms = await res.json();
+            renderTable(currentRooms);
         } catch (e) {
             console.error(e);
+            tbody.innerHTML = '<tr><td colspan="4" class="text-center">Error loading rooms</td></tr>';
         }
     }
+
+    function renderTable(rooms) {
+        const tbody = document.getElementById('admin-rooms-list');
+        tbody.innerHTML = '';
+        
+        if (rooms.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="4" class="text-center">No rooms found</td></tr>';
+            return;
+        }
+
+        rooms.forEach(r => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>
+                    <strong>${r.type}</strong><br>
+                    <small style="color:#95a5a6">${r.amenities.slice(0, 2).join(', ')}...</small>
+                </td>
+                <td>₹${r.price}</td>
+                <td><span class="badge badge-${r.status.toLowerCase()}">${r.status}</span></td>
+                <td class="actions-cell">
+                    <button class="btn btn-accent btn-sm" onclick="deleteRoom('${r.roomId}')">Delete</button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    // Search Logic
+    const searchInput = document.getElementById('room-search');
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            const filtered = currentRooms.filter(r => 
+                r.type.toLowerCase().includes(term) || 
+                r.status.toLowerCase().includes(term)
+            );
+            renderTable(filtered);
+        });
+    }
+
+    // Sort Logic
+    window.sortTable = (n) => {
+        // Simple client-side sort for demo
+        const isAsc = searchInput.dataset.order === 'asc';
+        currentRooms.sort((a, b) => {
+            let valA = n === 0 ? a.type : a.price;
+            let valB = n === 0 ? b.type : b.price;
+            if (valA < valB) return isAsc ? -1 : 1;
+            if (valA > valB) return isAsc ? 1 : -1;
+            return 0;
+        });
+        searchInput.dataset.order = isAsc ? 'desc' : 'asc';
+        renderTable(currentRooms);
+    };
 
     document.getElementById('addRoomForm').addEventListener('submit', async (e) => {
         e.preventDefault();

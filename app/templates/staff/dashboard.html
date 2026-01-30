@@ -1,39 +1,47 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container">
-    <h2>Staff Dashboard</h2>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboards.css') }}">
+<div class="staff-dashboard container">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h2>Staff Dashboard</h2>
+        <button id="refresh-btn" class="btn btn-primary" style="margin-bottom: 2rem;">Refresh Data</button>
+    </div>
     
-    <div class="mb-4">
-        <h3>Occupancy Overview</h3>
-        <div class="stats-grid" id="occupancy-stats">
-            <div class="stat-card">
-                <div class="stat-number" id="stat-total">-</div>
-                <div>Total Rooms</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="stat-booked">-</div>
-                <div>Booked</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="stat-available">-</div>
-                <div>Available</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="stat-maintenance">-</div>
-                <div>Maintenance</div>
-            </div>
+    <div class="overview-board">
+        <div class="board-item">
+            <span class="board-num" id="stat-total">-</span>
+            <span class="board-label">Total Rooms</span>
+        </div>
+        <div class="board-item">
+            <span class="board-num" id="stat-booked">-</span>
+            <span class="board-label">Booked</span>
+        </div>
+        <div class="board-item">
+            <span class="board-num" id="stat-available">-</span>
+            <span class="board-label">Available</span>
+        </div>
+        <div class="board-item">
+            <span class="board-num" id="stat-maintenance">-</span>
+            <span class="board-label">Maintenance</span>
         </div>
     </div>
 
-    <hr>
-
-    <div class="mb-4" style="margin-top: 2rem;">
-        <h3>Room Management</h3>
-        <button id="refresh-btn" class="btn btn-primary" style="margin-bottom: 1rem;">Refresh List</button>
-        <div id="rooms-list" class="card-grid">
-            <p>Loading rooms...</p>
-        </div>
+    <!-- Management -->
+    <div>
+        <h3>Room Status Management</h3>
+        <table class="room-table">
+            <thead>
+                <tr>
+                    <th>Room</th>
+                    <th>Current Status</th>
+                    <th>Update Action</th>
+                </tr>
+            </thead>
+            <tbody id="rooms-list">
+                <!-- Rows injected by JS -->
+            </tbody>
+        </table>
     </div>
 </div>
 {% endblock %}
