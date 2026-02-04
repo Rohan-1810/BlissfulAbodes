@@ -13,7 +13,7 @@ from flask import g
 TABLE_USERS = os.environ.get('TABLE_USERS', 'Users')
 TABLE_ROOMS = os.environ.get('TABLE_ROOMS', 'Rooms')
 TABLE_BOOKINGS = os.environ.get('TABLE_BOOKINGS', 'Bookings')
-SNS_TOPIC_ARN = 'arn:aws:sns:us-east-1:123456789012:MyTopic'  # REPLACE WITH ACTUAL TOPIC ARN
+SNS_TOPIC_ARN = 'arn:aws:sns:us-east-1:539247495126:BlissfullAbodes_topic:fb71ad39-c20d-4143-9255-db6002ccba18'  # REPLACE WITH ACTUAL TOPIC ARN
 REGION = os.environ.get('AWS_REGION', 'us-east-1')
 
 dynamodb = boto3.resource('dynamodb', region_name=REGION)
